@@ -1,4 +1,4 @@
-from .HashBucketEntry import HashBucketEntry
+from src.HashBucketEntry import HashBucketEntry
 
 class HashBucket:
     """I am just having fun now. This is formally a list with extra stats added and funny functions.    

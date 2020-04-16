@@ -1,4 +1,4 @@
-from .HashBucket import HashBucket
+from src.HashBucket import HashBucket
 
 class WordHashTable:
     """
@@ -32,6 +32,7 @@ class WordHashTable:
 
             #Check if a new bucket needs to be made
             if not self._table[bucket_no]:
+                print("New Bucket!")
                 self._table[bucket_no] = HashBucket(bucket_no)
                 self.buckets += 1
             else:
@@ -76,7 +77,7 @@ class WordHashTable:
                 print(self._table[bucket_no])
 
     def _get_bucket_no(self, value):
-        return self.size % hash(value)
+        return hash(value) % self.size
 
     def _is_hashable(self, value):
         """Python probably has a more elegant way to do this, but I don't care right now.
