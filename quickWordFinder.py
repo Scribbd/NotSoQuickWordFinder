@@ -1,4 +1,4 @@
-#from src.WordHashTable import WordHashTable as wht
+from src.WordHashTable import WordHashTable
 
 import csv
 
@@ -6,24 +6,12 @@ with open("./words.csv") as wordList:
     wordsReader = csv.reader(wordList)
     data = list(wordsReader)
 
+hash_table = WordHashTable()
 
-tester = [None]
-total = 0
-matched = 0
 for word in data:
-    hashed = hash(word[0])
-    if hashed in tester:
-        matched += 1
-    else:
-        tester.append(hashed)
-    total += 1
-print(matched, " ", total, " ", total - matched)
+    hash_table.insert(word[0])
 
-uniques = [None]
-unique = 0
-for word in data:
-    if word[0] not in uniques:
-        unique += 1
-        uniques.append(word[0])
-print(unique)
-print("done")
+
+hash_table.print_table()
+hash_table.print_stats()
+ 
