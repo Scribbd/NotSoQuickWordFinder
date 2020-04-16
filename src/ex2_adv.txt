@@ -1,0 +1,5 @@
+Hash table:
+1) load words.csv into your script
+2) create a hash table (don't use existing hash table functions, but you can use an existing algorithm for the hash)
+3) place the contents of words.csv into the hash table
+4) give a user the option to fill in a word and tell the user whether that word is in words.csv or not by looking it up in your hash table
