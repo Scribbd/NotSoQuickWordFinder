@@ -10,6 +10,7 @@ class HashBucketEntry:
             value {Hashable Object} -- The value that needs to be stored. This has to be hashable.
         """        
         self.value = value
+        self.found = 1
 
     @property
     def value(self):

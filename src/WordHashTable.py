@@ -1,3 +1,4 @@
+import sys
 from .HashBucket import HashBucket
 
 class WordHashTable:
@@ -37,13 +38,11 @@ class WordHashTable:
             else:
                 self.collisions += 1 
             
-            #Check if the value is already present
-            if not self.has(value):
-                self._table[bucket_no].toss_in(value)
+            #Toss it in the bucket and let it sort itself out
+            if self._table[bucket_no].toss_in(value):
                 self.length += 1
             else:
                 self.duplicates += 1
-                #Do nothing else when there is a duplicate
 
     def has(self, value):
         """Checks if a value is already in one of the buckets
@@ -53,19 +52,12 @@ class WordHashTable:
         
         Returns:
             [Boolean] -- [If the bucket has the value]
-        """        
+        """ 
+        self.checks += 1       
         if self._is_hashable(value):
-            self.checks += 1
             bucket_no = self._get_bucket_no(value)
             return self._table[bucket_no].rummage_through_and_find(value)
             
-
-    def print_stats(self):
-        """Prints the worst stats of the worst table
-        """        
-        print("This WordHashTable is the worst with {} as bucket size, and {} entries.\n".format(self.size, self.length) +
-        "It tossed out {} duplicates, and chained {} collisions.\n".format(self.duplicates, self.collisions) +
-        "It also has {} empty bucket spots and it checked itself {} times.".format(self.size - self.buckets, self.checks))
 
     def print_table(self):
         """Prints the worst table of the worst stats
@@ -75,12 +67,39 @@ class WordHashTable:
             if bucket:
                 print(bucket)
 
+    def print_stats(self):
+        """Prints the worst stats of the worst table
+        """        
+        print("This WordHashTable is the worst with {} as bucket size, and {} entries.\n".format(self.size, self.length) +
+        "\tIt tossed out {} duplicates, and chained {} collisions.\n".format(self.duplicates, self.collisions) +
+        "\tIt also has {} empty bucket spots and it checked itself {} times.".format(self.size - self.buckets, self.checks))
+
+    def print_bucket_stats(self):
+        min_hit = min_tossed = sys.maxsize
+        max_hit = max_tossed = -sys.maxsize - 1
+        for bucket in self._table:
+            #Hits
+            if min_hit > bucket.hit:
+                min_hit = bucket.hit
+            if max_hit < bucket.hit:
+                max_hit = bucket.hit
+            #Misses
+            if min_tossed > bucket.missed:
+                min_tossed = bucket.missed
+            if max_tossed < bucket.missed:
+                max_tossed = bucket.missed
+            #Print its stats
+            bucket.print_stats()
+        #Print global stats
+        print("Together this means the largest bucket size is: {}. Smallest: {}. Most missed: {}. Least missed: {}".format(max_hit, min_hit, max_tossed, min_tossed))
+
+
     def _get_bucket_no(self, value):
         return hash(value) % self.size
 
     def _is_hashable(self, value):
         """Python probably has a more elegant way to do this, but I don't care right now.
-        
+
         Arguments:
             value {Object} -- Any object
         
