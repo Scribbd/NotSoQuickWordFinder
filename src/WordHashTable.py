@@ -7,7 +7,7 @@ class WordHashTable:
     
     """
 
-    def __init__(self, size = 256):
+    def __init__(self, size = 1024):
         """
         Keyword Arguments:
             size {Integer} -- The amount of buckets generated (default: {256})
@@ -78,6 +78,8 @@ class WordHashTable:
         min_hit = min_tossed = sys.maxsize
         max_hit = max_tossed = -sys.maxsize - 1
         for bucket in self._table:
+            if not bucket:
+                continue
             #Hits
             if min_hit > bucket.hit:
                 min_hit = bucket.hit
