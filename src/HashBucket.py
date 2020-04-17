@@ -1,4 +1,4 @@
-from src.HashBucketEntry import HashBucketEntry
+from .HashBucketEntry import HashBucketEntry
 
 class HashBucket:
     """I am just having fun now. This is formally a list with extra stats added and funny functions.    
@@ -6,7 +6,7 @@ class HashBucket:
     """    
 
     def __init__(self, bucket_no):
-        self._list = {None}
+        self._list = []
         self.bucket_no = bucket_no
         
     def toss_in(self, value):
@@ -15,8 +15,8 @@ class HashBucket:
         Arguments:
             value {Hashable Object} -- Anything really that can be hash()-ed or has a __hash__() that works.
         """        
-        if value is HashBucketEntry:
-            self._list.add(value)
+        if not self.rummage_through_and_find(value):
+            self._list.append(value)
         else:
             self._list.add(HashBucketEntry(value))
 
@@ -33,7 +33,7 @@ class HashBucket:
 
 
     def __str__(self):
-        out = "This bucket has the following content:"
+        out = "This is bucket {} has the following content:".format(self.bucket_no)
         for entry in self._list:
             out += " " + str(entry) + ","
         return out

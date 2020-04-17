@@ -1,4 +1,4 @@
-from src.HashBucket import HashBucket
+from .HashBucket import HashBucket
 
 class WordHashTable:
     """
@@ -32,7 +32,6 @@ class WordHashTable:
 
             #Check if a new bucket needs to be made
             if not self._table[bucket_no]:
-                print("New Bucket!")
                 self._table[bucket_no] = HashBucket(bucket_no)
                 self.buckets += 1
             else:
@@ -72,9 +71,9 @@ class WordHashTable:
         """Prints the worst table of the worst stats
         """        
         print("This WordHasTable is the worst with this as content:")
-        for bucket_no in self._table.keys():
-            if self._table[bucket_no]:
-                print(self._table[bucket_no])
+        for bucket in self._table:
+            if bucket:
+                print(bucket)
 
     def _get_bucket_no(self, value):
         return hash(value) % self.size
